@@ -41,3 +41,13 @@ tup.config
 /_site
 /.bundle
 
+
+Firmware/odrive\.creator\.user
+
+Firmware/odrive\.config
+
+Firmware/odrive\.creator
+
+Firmware/odrive\.files
+
+Firmware/odrive\.includes
