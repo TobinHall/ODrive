@@ -100,6 +100,7 @@ public:
                 make_protocol_property("vel_gain", &config_.vel_gain),
                 make_protocol_property("vel_integrator_gain", &config_.vel_integrator_gain),
                 make_protocol_property("vel_limit", &config_.vel_limit),
+                make_protocol_property("use_anticogging", &anticogging_.use_anticogging),
                 make_protocol_property("vel_limit_tolerance", &config_.vel_limit_tolerance)
             ),
             make_protocol_function("set_pos_setpoint", *this, &Controller::set_pos_setpoint,
