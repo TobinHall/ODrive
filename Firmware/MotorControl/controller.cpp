@@ -1,5 +1,6 @@
 
 #include "odrive_main.h"
+#include "arm_const_structs.h"
 
 
 Controller::Controller(Config_t& config) :
@@ -97,6 +98,29 @@ float Controller::write_anticogging_map(int32_t index, float value){
     if (anticogging_.cogging_map != NULL && !std::isnan(value))
         anticogging_.cogging_map[index] = value;
     return anticogging_.cogging_map[index];
+}
+
+void Controller::init_anticogging_map(){
+    if (anticogging_.cogging_map == NULL)
+        return;
+    const int fft_size = 4096;
+    float *fft_array = (float*)malloc(fft_size * sizeof(float));
+    for(int i = 0; i < fft_size*2; i++){
+        fft_array[i] = 0;
+    }
+    fft_array[24*2] = -15227.14115631f;
+    fft_array[24*2+1] = -10503.75312727f;
+
+    fft_array[48*2] = 381.81576473f;
+    fft_array[48*2+1] = 3475.47575187f;
+
+    arm_cfft_f32(&arm_cfft_sR_f32_len4096, fft_array, 1, 1);
+    for(int i = 0; i < fft_size; i++){
+        //-- seems to be half the value of python ifft
+        anticogging_.cogging_map[i] = fft_array[i*2] * 2;
+    }
+    free(fft_array);
+    anticogging_.use_anticogging = true;
 }
 
 bool Controller::update(float pos_estimate, float vel_estimate, float* current_setpoint_output) {
