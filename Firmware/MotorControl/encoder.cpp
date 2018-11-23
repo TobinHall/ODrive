@@ -9,7 +9,7 @@ Encoder::Encoder(const EncoderHardwareConfig_t& hw_config,
 {
     update_pll_gains();
 
-    if (config.pre_calibrated && (config.mode == Encoder::MODE_HALL)) {
+    if (config.pre_calibrated) {
         is_ready_ = true;
     }
 }
@@ -86,7 +86,7 @@ void Encoder::set_circular_count(int32_t count, bool update_offset) {
     // Update states
     count_in_cpr_ = mod(count, config_.cpr);
     pos_cpr_ = (float)count_in_cpr_;
-
+    set_linear_count(count);
     cpu_exit_critical(prim);
 }
 
