@@ -41,13 +41,12 @@ tup.config
 /_site
 /.bundle
 
+# Qtcreator
+*.user
+*.config
+*.creator
+*.files
+*.includes
 
-Firmware/odrive\.creator\.user
-
-Firmware/odrive\.config
-
-Firmware/odrive\.creator
-
-Firmware/odrive\.files
-
-Firmware/odrive\.includes
+# PyCharm
+*.idea/
